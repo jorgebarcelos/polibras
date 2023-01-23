@@ -5,16 +5,26 @@ from .models import Product, Stock, Sale
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('name', 'price')
+        fields = '__all__'
 
 
 class StockSerializer(serializers.ModelSerializer):
+    product = serializers.SlugRelatedField(read_only=True, slug_field='name')
+
     class Meta:
         model = Stock
-        fields = ('quantity', 'product')
+        fields = '__all__'
 
 
 class SaleSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Sale
-        fields = ('date', 'total_value')
+        fields = '__all__'
+
+
+class SalePayloadSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Sale
+        fields = '__all__'
