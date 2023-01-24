@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Product, Stock, Sale
 
 
@@ -17,6 +18,7 @@ class StockSerializer(serializers.ModelSerializer):
 
 
 class SaleSerializer(serializers.ModelSerializer):
+    product = serializers.SlugRelatedField(read_only=True, slug_field='name')
 
     class Meta:
         model = Sale
@@ -24,7 +26,6 @@ class SaleSerializer(serializers.ModelSerializer):
 
 
 class SalePayloadSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Sale
-        fields = '__all__'
+        fields = ['product', 'total_qtd']
