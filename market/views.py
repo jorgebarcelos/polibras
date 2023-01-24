@@ -22,7 +22,8 @@ class SaleViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'])
     def create_sale(self, request, pk=None):
         try:
-            product = Product.objects.get(name=product_name)
+            p1 = request.data['product']
+            product = Product.objects.get(name=p1)
         except Product.DoesNotExist:
             # Tratar exceção caso o produto não exista
             return 'Produto não encontrado'
@@ -37,6 +38,8 @@ class SaleViewSet(viewsets.ModelViewSet):
             new_sale.save()
             product.stock.quantity -= 1
             product.stock.save()
+            serializer = self.get_serializer(product)
+            return Response(serializer.data)
 
 
 class SalePayloadViewSet(viewsets.ModelViewSet):
